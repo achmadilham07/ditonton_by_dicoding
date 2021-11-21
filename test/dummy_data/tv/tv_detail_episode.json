@@ -1,0 +1,39 @@
+{
+  "_id": "52571e1819c2957114101a1a",
+  "air_date": "2006-09-18",
+  "episodes": [
+    {
+      "air_date": "2006-09-18",
+      "episode_number": 1,
+      "crew": [],
+      "guest_stars": [
+        {
+          "character": "",
+          "credit_id": "52571e1919c2957114101a7e",
+          "order": 0,
+          "adult": false,
+          "gender": 0,
+          "id": 1215497,
+          "known_for_department": "Acting",
+          "name": "Diane Sawyer",
+          "original_name": "Diane Sawyer",
+          "popularity": 0.685,
+          "profile_path": "/9CDV3wzGxIVF2vBFk2WV0Z3SCab.jpg"
+        }
+      ],
+      "id": 135844,
+      "name": "Rachael's Premiere",
+      "overview": "",
+      "production_code": "",
+      "season_number": 1,
+      "still_path": null,
+      "vote_average": 0.0,
+      "vote_count": 0
+    }
+  ],
+  "name": "Season 1",
+  "overview": "",
+  "id": 1438,
+  "poster_path": null,
+  "season_number": 1
+}

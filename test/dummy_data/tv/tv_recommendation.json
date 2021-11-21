@@ -1,0 +1,28 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/5PNMnVfIol6CCfrU39hE9azZiIn.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 3461,
+      "media_type": "tv",
+      "name": "Dharma & Greg",
+      "origin_country": [
+        "US"
+      ],
+      "original_language": "en",
+      "original_name": "Dharma & Greg",
+      "overview": "Dharma & Greg is an American television sitcom that aired from September 24, 1997, to April 30, 2002.\n\nIt stars Jenna Elfman and Thomas Gibson as Dharma and Greg Montgomery, a couple who got married on their first date despite being complete opposites. The series is co-produced by Chuck Lorre Productions, More-Medavoy Productions and 4 to 6 Foot Productions in association with 20th Century Fox Television for ABC. The show's theme song was written and performed by composer Dennis C. Brown.\n\nCreated by executive producers Dottie Dartland and Chuck Lorre, the comedy took much of its inspiration from so-called culture-clash \"fish out of water\" situations. The show earned eight Golden Globe nominations, six Emmy Award nominations, and six Satellite Awards nominations. Elfman earned a Golden Globe in 1999 for Best Actress.",
+      "popularity": 13.844,
+      "poster_path": "/zmafXjaQphnyHZ8oF3Q51DDIRWZ.jpg",
+      "first_air_date": "1997-09-24",
+      "vote_average": 6.371,
+      "vote_count": 147
+    }
+  ],
+  "total_pages": 2,
+  "total_results": 40
+}

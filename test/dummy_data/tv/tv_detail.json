@@ -1,0 +1,175 @@
+{
+  "backdrop_path": "/wFzQsWiRCWfgSIqZ24tg5rBc4si.jpg",
+  "created_by": [
+    {
+      "id": 781,
+      "credit_id": "52537c0a19c2957940194e17",
+      "name": "Paul Reiser",
+      "gender": 2,
+      "profile_path": "/v3e5TClep4ugMdU4qSRiKbvLr3B.jpg"
+    },
+    {
+      "id": 1212750,
+      "credit_id": "52537c0a19c2957940194e1d",
+      "name": "Danny Jacobson",
+      "gender": 2,
+      "profile_path": "/7fW5gwzbH0iJpnhHAF8EE4YwAmr.jpg"
+    }
+  ],
+  "episode_run_time": [
+    23
+  ],
+  "first_air_date": "1992-09-23",
+  "genres": [
+    {
+      "id": 35,
+      "name": "Comedy"
+    }
+  ],
+  "homepage": "",
+  "id": 500,
+  "in_production": false,
+  "languages": [
+    "en"
+  ],
+  "last_air_date": "1999-05-24",
+  "last_episode_to_air": {
+    "air_date": "1999-05-24",
+    "episode_number": 22,
+    "id": 24883,
+    "name": "The Final Frontier (2)",
+    "overview": "Mabel's first real film is a biography, looking back at her family's twisted history.",
+    "production_code": "",
+    "season_number": 7,
+    "still_path": "/hehy0i2eUD494QErzcrsmjLVnUL.jpg",
+    "vote_average": 0.0,
+    "vote_count": 0
+  },
+  "name": "Mad About You",
+  "next_episode_to_air": null,
+  "networks": [
+    {
+      "name": "NBC",
+      "id": 6,
+      "logo_path": "/o3OedEP0f9mfZr33jz2BfXOUK5.png",
+      "origin_country": "US"
+    }
+  ],
+  "number_of_episodes": 164,
+  "number_of_seasons": 7,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "Mad About You",
+  "overview": "Young, urban newlyweds Paul and Jamie Buchman try to sustain their marital bliss while sidestepping the hurdles of love in the '90s.",
+  "popularity": 22.786,
+  "poster_path": "/vvnslQjc1LnERuroGVh8bPdBi2r.jpg",
+  "production_companies": [
+    {
+      "id": 8609,
+      "logo_path": "/aX7HQqzdIV7ttd90u4L1H643ZNa.png",
+      "name": "TriStar Television",
+      "origin_country": "US"
+    },
+    {
+      "id": 65493,
+      "logo_path": null,
+      "name": "In Front Productions",
+      "origin_country": ""
+    },
+    {
+      "id": 65494,
+      "logo_path": null,
+      "name": "Nuance Productions",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [],
+  "seasons": [
+    {
+      "air_date": null,
+      "episode_count": 22,
+      "id": 1438,
+      "name": "Specials",
+      "overview": "",
+      "poster_path": "/g6KGYEADDxOi1xYHgn4MVcoNVWg.jpg",
+      "season_number": 0
+    },
+    {
+      "air_date": "1992-09-23",
+      "episode_count": 22,
+      "id": 1433,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/rDXUk0AorokZXJJKdKwYcwzEdMI.jpg",
+      "season_number": 1
+    },
+    {
+      "air_date": "1993-09-16",
+      "episode_count": 25,
+      "id": 1432,
+      "name": "Season 2",
+      "overview": "",
+      "poster_path": "/uo1usPKEFktHJNjc0hWdeAQpn9U.jpg",
+      "season_number": 2
+    },
+    {
+      "air_date": "1994-09-22",
+      "episode_count": 24,
+      "id": 1437,
+      "name": "Season 3",
+      "overview": "",
+      "poster_path": "/q6wtrkyJUcI1NtTOVMxzm4aALDA.jpg",
+      "season_number": 3
+    },
+    {
+      "air_date": "1995-09-24",
+      "episode_count": 24,
+      "id": 1436,
+      "name": "Season 4",
+      "overview": "",
+      "poster_path": "/gnD2ElOCCsz1x06XKalos4Ln73n.jpg",
+      "season_number": 4
+    },
+    {
+      "air_date": "1996-09-17",
+      "episode_count": 24,
+      "id": 1435,
+      "name": "Season 5",
+      "overview": "",
+      "poster_path": "/jTNoTvnECbxgpC1tvQVjgsjQt5p.jpg",
+      "season_number": 5
+    },
+    {
+      "air_date": "1997-09-23",
+      "episode_count": 23,
+      "id": 1431,
+      "name": "Season 6",
+      "overview": "",
+      "poster_path": "/iMcg9pSZ4ZxRt8sm1i2yWmImGTj.jpg",
+      "season_number": 6
+    },
+    {
+      "air_date": "1998-09-22",
+      "episode_count": 22,
+      "id": 1434,
+      "name": "Season 7",
+      "overview": "",
+      "poster_path": "/kG7YbpPgsENADre2c9c0eDFSLMw.jpg",
+      "season_number": 7
+    }
+  ],
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Ended",
+  "tagline": "",
+  "type": "Scripted",
+  "vote_average": 6.4,
+  "vote_count": 125
+}
