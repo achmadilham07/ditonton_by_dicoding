@@ -3,8 +3,14 @@ import 'dart:async';
 import 'package:ditonton/data/models/movie_table.dart';
 import 'package:sqflite/sqflite.dart';
 
+///
+/// isMovie is integer,
+/// if 0 it means Movie
+/// if 1 it meanse Tv
+///
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
+
   DatabaseHelper._instance() {
     _databaseHelper = this;
   }
@@ -14,9 +20,7 @@ class DatabaseHelper {
   static Database? _database;
 
   Future<Database?> get database async {
-    if (_database == null) {
-      _database = await _initDb();
-    }
+    _database ??= await _initDb();
     return _database;
   }
 
@@ -36,7 +40,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY,
         title TEXT,
         overview TEXT,
-        posterPath TEXT
+        posterPath TEXT,
+        isMovie INTEGER
       );
     ''');
   }
@@ -50,8 +55,8 @@ class DatabaseHelper {
     final db = await database;
     return await db!.delete(
       _tblWatchlist,
-      where: 'id = ?',
-      whereArgs: [movie.id],
+      where: 'id = ? and isMovie = ?',
+      whereArgs: [movie.id, movie.isMovie],
     );
   }
 
@@ -59,7 +64,7 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblWatchlist,
-      where: 'id = ?',
+      where: 'id = ? and isMovie = 0',
       whereArgs: [id],
     );
 
@@ -70,7 +75,22 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getWatchlistMovies() async {
+  Future<Map<String, dynamic>?> getTvById(int id) async {
+    final db = await database;
+    final results = await db!.query(
+      _tblWatchlist,
+      where: 'id = ? and isMovie = 1',
+      whereArgs: [id],
+    );
+
+    if (results.isNotEmpty) {
+      return results.first;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getWatchlistFilms() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db!.query(_tblWatchlist);
 

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
 class Movie extends Equatable {
@@ -15,13 +17,6 @@ class Movie extends Equatable {
     required this.video,
     required this.voteAverage,
     required this.voteCount,
-  });
-
-  Movie.watchlist({
-    required this.id,
-    required this.overview,
-    required this.posterPath,
-    required this.title,
   });
 
   bool? adult;
