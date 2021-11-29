@@ -2,17 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/domain/usecases/get_now_playing_tv.dart';
-import 'package:ditonton/domain/usecases/get_popular_tv.dart';
-import 'package:ditonton/domain/usecases/get_top_rated_tv.dart';
 import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'tv_list_notifier_test.mocks.dart';
+import '../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([GetNowPlayingTv, GetPopularTv, GetTopRatedTv])
 void main() {
   late TvListNotifier provider;
   late MockGetNowPlayingTv mockGetNowPlayingTvs;

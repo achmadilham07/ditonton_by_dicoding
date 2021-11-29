@@ -3,11 +3,18 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/data/models/episode_response.dart';
 import 'package:ditonton/domain/entities/genre.dart';
+import 'package:ditonton/presentation/bloc/film_watchlist/film_watchlist_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_recommendation/movie_recommendation_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_episode/tv_episode_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_recommendation/tv_recommendation_bloc.dart';
 import 'package:ditonton/presentation/pages/home_page.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -40,14 +47,39 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      if (widget.args.isMovie) {
-        Provider.of<MovieDetailNotifier>(context, listen: false)
-          ..fetchMovieDetail(widget.args.id)
-          ..loadWatchlistStatus(widget.args.id);
+      if (isProvider) {
+        if (widget.args.isMovie) {
+          context.read<MovieDetailNotifier>()
+            ..fetchMovieDetail(widget.args.id)
+            ..loadWatchlistStatus(widget.args.id);
+        } else {
+          context.read<TvDetailNotifier>()
+            ..fetchTvDetail(widget.args.id)
+            ..loadWatchlistStatus(widget.args.id);
+        }
       } else {
-        Provider.of<TvDetailNotifier>(context, listen: false)
-          ..fetchTvDetail(widget.args.id)
-          ..loadWatchlistStatus(widget.args.id);
+        if (widget.args.isMovie) {
+          context
+              .read<MovieDetailBloc>()
+              .add(GetMovieDetailEvent(widget.args.id));
+          context
+              .read<MovieRecommendationBloc>()
+              .add(GetMovieRecommendationEvent(widget.args.id));
+          context
+              .read<FilmWatchlistBloc>()
+              .add(GetStatusMovieEvent(widget.args.id));
+        } else {
+          context.read<TvDetailBloc>().add(GetTvDetailEvent(widget.args.id));
+          context
+              .read<TvRecommendationBloc>()
+              .add(GetTvRecommendationEvent(widget.args.id));
+          context
+              .read<FilmWatchlistBloc>()
+              .add(GetStatusTvEvent(widget.args.id));
+          context
+              .read<TvEpisodeBloc>()
+              .add(TvEpisodeGetEvent(widget.args.id, 1));
+        }
       }
     });
   }
@@ -55,7 +87,404 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.args.isMovie ? _movieConsumer() : _tvConsumer(),
+      body: isProvider
+          ? widget.args.isMovie
+              ? _movieConsumer()
+              : _tvConsumer()
+          : widget.args.isMovie
+              ? _movieBlocBuilder()
+              : _tvBlocBuilder(),
+    );
+  }
+
+  Widget _tvBlocBuilder() {
+    return BlocListener<FilmWatchlistBloc, FilmWatchlistState>(
+      listener: (_, state) {
+        if (state is FilmWatchlistSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.message),
+          ));
+
+          context
+              .read<FilmWatchlistBloc>()
+              .add(GetStatusTvEvent(widget.args.id));
+        }
+      },
+      child: BlocBuilder<TvDetailBloc, TvDetailState>(
+        builder: (context, state) {
+          if (state is TvDetailLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is TvDetailLoaded) {
+            final tv = state.movieDetail;
+            final seasons = tv.seasons;
+            bool isAddedWatchlist = (context.watch<FilmWatchlistBloc>().state
+                    is FilmWatchlistStatusLoaded)
+                ? (context.read<FilmWatchlistBloc>().state
+                        as FilmWatchlistStatusLoaded)
+                    .result
+                : false;
+            return SafeArea(
+              child: DetailContent(
+                isAddedWatchlist: isAddedWatchlist,
+                voteAverage: tv.voteAverage ?? 0,
+                title: tv.name.toString(),
+                runtime: tv.episodeRunTime?.first ?? 0,
+                overview: tv.overview.toString(),
+                imageUrl: '$baseImageUrl${tv.posterPath}',
+                genres: tv.genres ?? [],
+                onWatchListClick: () async {
+                  if (!isAddedWatchlist) {
+                    context.read<FilmWatchlistBloc>().add(AddItemTvEvent(tv));
+                  } else {
+                    context
+                        .read<FilmWatchlistBloc>()
+                        .add(RemoveItemTvEvent(tv));
+                  }
+                },
+                lwEpisode: [
+                  BlocBuilder<TvEpisodeBloc, TvEpisodeState>(
+                    builder: (context, state) {
+                      if (state is TvEpisodeLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is TvEpisodeLoaded) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 16),
+                            Text(
+                              'Episode',
+                              style: kHeading6,
+                            ),
+                            if (state.result.isEmpty)
+                              const Text("No episode")
+                            else
+                              SizedBox(
+                                height: 90,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: state.result.length,
+                                  itemBuilder: (context, index) {
+                                    final item = state.result[index];
+                                    final episode = item.name;
+                                    return Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 160, minWidth: 160),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Episode ${index + 1}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                Text(
+                                                  "\"$episode\"",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                          ],
+                        );
+                      } else if (state is TvEpisodeError) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 16),
+                            Text(
+                              'Episode',
+                              style: kHeading6,
+                            ),
+                            Text(state.message),
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 16),
+                            Text(
+                              'Episode',
+                              style: kHeading6,
+                            ),
+                            const Text("No episode"),
+                          ],
+                        );
+                      }
+                    },
+                  )
+                ],
+                lwSeason: seasons?.isEmpty ?? true
+                    ? [Container()]
+                    : [
+                        const SizedBox(height: 16),
+                        Text(
+                          'Seasons',
+                          style: kHeading6,
+                        ),
+                        SizedBox(
+                          height: 90,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: seasons!.length,
+                            itemBuilder: (context, index) {
+                              final item = seasons[index];
+                              String overview =
+                                  (item.overview?.isNotEmpty ?? false)
+                                      ? item.overview.toString()
+                                      : "-";
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Card(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (isProvider) {
+                                        await context
+                                            .read<TvDetailNotifier>()
+                                            .fetchTvEpisode(
+                                                widget.args.id, index);
+                                      } else {
+                                        context.read<TvEpisodeBloc>().add(
+                                            TvEpisodeGetEvent(
+                                                widget.args.id, index));
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        constraints: const BoxConstraints(
+                                            maxWidth: 160, minWidth: 160),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Season ${index + 1}",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Text(
+                                              "\"$overview\"",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                lwRecommendations: [
+                  const SizedBox(height: 16),
+                  Text(
+                    'Recommendations',
+                    style: kHeading6,
+                  ),
+                  BlocBuilder<TvRecommendationBloc, TvRecommendationState>(
+                    builder: (context, state) {
+                      if (state is TvRecommendationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is TvRecommendationError) {
+                        return Text(state.message);
+                      } else if (state is TvRecommendationLoaded) {
+                        final recommendations = state.movie;
+                        if (recommendations.isEmpty) {
+                          return const Text("No recommendations");
+                        }
+                        return SizedBox(
+                          height: 150,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final movie = recommendations[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: HomeItem(
+                                  imageUrl:
+                                      '$baseImageUrl${movie.posterPath}',
+                                  onClick: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      FilmDetailPage.routeName,
+                                      arguments: FilmDetailArgs(
+                                          id: tv.id ?? 0, isMovie: false),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            itemCount: recommendations.length,
+                          ),
+                        );
+                      } else {
+                        return const Text("No recommendations");
+                      }
+                    },
+                  ),
+                ],
+              ),
+            );
+          } else if (state is TvDetailError) {
+            return Text(state.message);
+          } else {
+            return const Text("Error");
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _movieBlocBuilder() {
+    return BlocListener<FilmWatchlistBloc, FilmWatchlistState>(
+      listener: (_, state) {
+        if (state is FilmWatchlistSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(state.message),
+          ));
+
+          context
+              .read<FilmWatchlistBloc>()
+              .add(GetStatusMovieEvent(widget.args.id));
+        }
+      },
+      child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
+        builder: (context, state) {
+          if (state is MovieDetailLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is MovieDetailLoaded) {
+            final movie = state.movieDetail;
+            bool isAddedWatchlist = (context.watch<FilmWatchlistBloc>().state
+                    is FilmWatchlistStatusLoaded)
+                ? (context.read<FilmWatchlistBloc>().state
+                        as FilmWatchlistStatusLoaded)
+                    .result
+                : false;
+            return SafeArea(
+              child: DetailContent(
+                isAddedWatchlist: isAddedWatchlist,
+                voteAverage: movie.voteAverage,
+                title: movie.title.toString(),
+                runtime: movie.runtime,
+                overview: movie.overview,
+                imageUrl: '$baseImageUrl${movie.posterPath}',
+                genres: movie.genres,
+                onWatchListClick: () async {
+                  if (!isAddedWatchlist) {
+                    context
+                        .read<FilmWatchlistBloc>()
+                        .add(AddItemMovieEvent(movie));
+                  } else {
+                    context
+                        .read<FilmWatchlistBloc>()
+                        .add(RemoveItemMovieEvent(movie));
+                  }
+                },
+                lwSeason: [Container()],
+                lwEpisode: [Container()],
+                lwRecommendations: [
+                  const SizedBox(height: 16),
+                  Text(
+                    'Recommendations',
+                    style: kHeading6,
+                  ),
+                  BlocBuilder<MovieRecommendationBloc,
+                      MovieRecommendationState>(
+                    builder: (context, state) {
+                      if (state is MovieRecommendationLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is MovieRecommendationError) {
+                        return Text(state.message);
+                      } else if (state is MovieRecommendationLoaded) {
+                        final recommendations = state.movie;
+                        if (recommendations.isEmpty) {
+                          return const Text("No recommendations");
+                        }
+                        return SizedBox(
+                          height: 150,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final movie = recommendations[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: HomeItem(
+                                  imageUrl:
+                                      '$baseImageUrl${movie.posterPath}',
+                                  onClick: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      FilmDetailPage.routeName,
+                                      arguments: FilmDetailArgs(
+                                          id: movie.id, isMovie: true),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            itemCount: recommendations.length,
+                          ),
+                        );
+                      } else {
+                        return const Text("No recommendations");
+                      }
+                    },
+                  ),
+                ],
+              ),
+            );
+          } else if (state is MovieDetailError) {
+            return Text(state.message);
+          } else {
+            return const Text("Error");
+          }
+        },
+      ),
     );
   }
 
@@ -78,7 +507,7 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
               title: tv.name.toString(),
               runtime: tv.episodeRunTime?.first ?? 0,
               overview: tv.overview.toString(),
-              imageUrl: 'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+              imageUrl: '$baseImageUrl${tv.posterPath}',
               genres: tv.genres ?? [],
               onWatchListClick: () async {
                 if (!isAddedWatchlist) {
@@ -283,7 +712,7 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
                             padding: const EdgeInsets.all(4.0),
                             child: HomeItem(
                               imageUrl:
-                                  'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+                                  '$baseImageUrl${tv.posterPath}',
                               onClick: () {
                                 Navigator.pushReplacementNamed(
                                   context,
@@ -328,7 +757,7 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
               title: movie.title.toString(),
               runtime: movie.runtime,
               overview: movie.overview,
-              imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+              imageUrl: '$baseImageUrl${movie.posterPath}',
               genres: movie.genres,
               onWatchListClick: () async {
                 if (!isAddedWatchlist) {
@@ -390,7 +819,7 @@ class _FilmDetailPageState extends State<FilmDetailPage> {
                             padding: const EdgeInsets.all(4.0),
                             child: HomeItem(
                               imageUrl:
-                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                  '$baseImageUrl${movie.posterPath}',
                               onClick: () {
                                 Navigator.pushReplacementNamed(
                                   context,

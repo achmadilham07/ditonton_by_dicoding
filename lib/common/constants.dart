@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const String baseImageUrl = 'https://image.tmdb.org/t/p/w500';
+bool isProvider = false;
 
 // colors
 const Color kRichBlack = Color(0xFF000814);

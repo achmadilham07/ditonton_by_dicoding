@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "a199-flutter-expert-project",
+      "name": "ditonton_by_dicoding",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "a199-flutter-expert-project (profile mode)",
+      "name": "ditonton_by_dicoding (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"

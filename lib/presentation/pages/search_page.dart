@@ -1,9 +1,12 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/presentation/bloc/movie_search/movie_search_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_search/tv_search_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
 import 'package:ditonton/presentation/widgets/film_card_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
@@ -28,12 +31,20 @@ class SearchPage extends StatelessWidget {
           children: [
             TextField(
               onSubmitted: (query) {
-                if (isMovie) {
-                  Provider.of<MovieSearchNotifier>(context, listen: false)
-                      .fetchMovieSearch(query);
+                if (isProvider) {
+                  if (isMovie) {
+                    context.read<MovieSearchNotifier>().fetchMovieSearch(query);
+                  } else {
+                    context.read<TvSearchNotifier>().fetchTvSearch(query);
+                  }
                 } else {
-                  Provider.of<TvSearchNotifier>(context, listen: false)
-                      .fetchTvSearch(query);
+                  if (isMovie) {
+                    context
+                        .read<MovieSearchBloc>()
+                        .add(MovieSearchQueryEvent(query));
+                  } else {
+                    context.read<TvSearchBloc>().add(TvSearchQueryEvent(query));
+                  }
                 }
               },
               decoration: const InputDecoration(
@@ -48,11 +59,93 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            if (isMovie) _consumerMovie(),
-            if (!isMovie) _consumerTv(),
+            if (isProvider)
+              (isMovie) ? _consumerMovie() : _consumerTv()
+            else
+              (isMovie) ? _blocBuilderMovie() : _blocBuilderTv(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _blocBuilderTv() {
+    return BlocBuilder<TvSearchBloc, TvSearchState>(
+      builder: (context, state) {
+        if (state is TvSearchLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is TvSearchLoaded) {
+          final result = state.result;
+          return Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemBuilder: (context, index) {
+                final tv = result[index];
+                return FilmCard(
+                  id: tv.id ?? 0,
+                  posterPath: tv.posterPath.toString(),
+                  title: tv.name ?? "-",
+                  overview: tv.overview ?? "-",
+                  isMovie: false,
+                );
+              },
+              itemCount: result.length,
+            ),
+          );
+        } else if (state is TvSearchError) {
+          return Expanded(
+            child: Center(
+              child: Text(state.message),
+            ),
+          );
+        } else {
+          return Expanded(
+            child: Container(),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _blocBuilderMovie() {
+    return BlocBuilder<MovieSearchBloc, MovieSearchState>(
+      builder: (context, state) {
+        if (state is MovieSearchLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is MovieSearchLoaded) {
+          final result = state.result;
+          return Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemBuilder: (context, index) {
+                final movie = result[index];
+                return FilmCard(
+                  id: movie.id,
+                  posterPath: movie.posterPath.toString(),
+                  title: movie.title ?? "-",
+                  overview: movie.overview ?? "-",
+                  isMovie: true,
+                );
+              },
+              itemCount: result.length,
+            ),
+          );
+        } else if (state is MovieSearchError) {
+          return Expanded(
+            child: Center(
+              child: Text(state.message),
+            ),
+          );
+        } else {
+          return Expanded(
+            child: Container(),
+          );
+        }
+      },
     );
   }
 
@@ -69,7 +162,7 @@ class SearchPage extends StatelessWidget {
             child: ListView.builder(
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
-                final movie = data.searchResult[index];
+                final movie = result[index];
                 return FilmCard(
                   id: movie.id,
                   posterPath: movie.posterPath.toString(),
@@ -103,7 +196,7 @@ class SearchPage extends StatelessWidget {
             child: ListView.builder(
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
-                final tv = data.searchResult[index];
+                final tv = result[index];
                 return FilmCard(
                   id: tv.id ?? 0,
                   posterPath: tv.posterPath.toString(),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/io_client.dart';
 
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/data/models/episode_response.dart';
@@ -8,7 +9,6 @@ import 'package:ditonton/data/models/movie_response.dart';
 import 'package:ditonton/data/models/tv_detail_model.dart';
 import 'package:ditonton/data/models/tv_model.dart';
 import 'package:ditonton/data/models/tv_response.dart';
-import 'package:http/http.dart' as http;
 
 abstract class FilmRemoteDataSource {
   /// Movie
@@ -45,9 +45,24 @@ class FilmRemoteDataSourceImpl implements FilmRemoteDataSource {
   static const apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
   static const baseUrl = 'https://api.themoviedb.org/3';
 
-  final http.Client client;
+  final IOClient client;
 
   FilmRemoteDataSourceImpl({required this.client});
+
+  // Future<SecurityContext> get globalContext async {
+  //   final sslCert = await rootBundle.load('certificates/certificates.pem');
+  //   SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
+  //   securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+  //   return securityContext;
+  // }
+
+  // Future<IOClient> get getIoClient async {
+  //   HttpClient client = HttpClient(context: await globalContext);
+  //   client.badCertificateCallback =
+  //       (X509Certificate cert, String host, int port) => false;
+  //   IOClient ioClient = IOClient(client);
+  //   return ioClient;
+  // }
 
   @override
   Future<List<MovieModel>> getNowPlayingMovies() async {

@@ -1,5 +1,25 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:ditonton/presentation/bloc/film_watchlist/film_watchlist_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_now_playing/movie_now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_popular/movie_popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_recommendation/movie_recommendation_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_search/movie_search_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie_top_rated/movie_top_rated_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_episode/tv_episode_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_now_playing/tv_now_playing_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_popular/tv_popular_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_recommendation/tv_recommendation_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_search/tv_search_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_top_rated/tv_top_rated_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
@@ -20,12 +40,11 @@ import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-void main() {
-  di.init();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -36,6 +55,55 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        /// bloc
+        BlocProvider(
+          create: (_) => di.locator<FilmWatchlistBloc>(),
+        ),
+
+        /// bloc movie
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MoviePopularBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieRecommendationBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieSearchBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieTopRatedBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieNowPlayingBloc>(),
+        ),
+
+        /// bloc tv
+        BlocProvider(
+          create: (_) => di.locator<TvDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvRecommendationBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvSearchBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvPopularBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvTopRatedBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvNowPlayingBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvEpisodeBloc>(),
+        ),
+
+        /// provider movie
         ChangeNotifierProvider(
           create: (_) => di.locator<MovieListNotifier>(),
         ),
@@ -55,7 +123,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
 
-        /// tv
+        /// provider tv
         ChangeNotifierProvider(
           create: (_) => di.locator<TvListNotifier>(),
         ),
@@ -81,10 +149,10 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
         ),
-        home: const HomePage(),
+        initialRoute: HomePage.routeName,
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
-            case '/home':
+            case HomePage.routeName:
               return MaterialPageRoute(
                 builder: (_) => const HomePage(),
                 settings: settings,

@@ -35,51 +35,41 @@ class MockPopularTvsNotifier extends _i1.Mock
   _i2.GetPopularTv get getPopularTvs =>
       (super.noSuchMethod(Invocation.getter(#getPopularTvs),
           returnValue: _FakeGetPopularTv_0()) as _i2.GetPopularTv);
-
   @override
   _i4.RequestState get state => (super.noSuchMethod(Invocation.getter(#state),
       returnValue: _i4.RequestState.empty) as _i4.RequestState);
-
   @override
   List<_i5.Tv> get tvs =>
       (super.noSuchMethod(Invocation.getter(#tvs), returnValue: <_i5.Tv>[])
           as List<_i5.Tv>);
-
   @override
   String get message =>
       (super.noSuchMethod(Invocation.getter(#message), returnValue: '')
           as String);
-
   @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
-
   @override
   _i6.Future<void> fetchPopularTvs() =>
       (super.noSuchMethod(Invocation.method(#fetchPopularTvs, []),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
-
   @override
   void addListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#addListener, [listener]),
           returnValueForMissingStub: null);
-
   @override
   void removeListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#removeListener, [listener]),
           returnValueForMissingStub: null);
-
   @override
   void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
       returnValueForMissingStub: null);
-
   @override
   void notifyListeners() =>
       super.noSuchMethod(Invocation.method(#notifyListeners, []),
           returnValueForMissingStub: null);
-
   @override
   String toString() => super.toString();
 }

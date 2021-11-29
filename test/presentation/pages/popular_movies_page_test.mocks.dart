@@ -64,16 +64,13 @@ class MockPopularMoviesNotifier extends _i1.Mock
   void removeListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#removeListener, [listener]),
           returnValueForMissingStub: null);
-
   @override
   void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
       returnValueForMissingStub: null);
-
   @override
   void notifyListeners() =>
       super.noSuchMethod(Invocation.method(#notifyListeners, []),
           returnValueForMissingStub: null);
-
   @override
   String toString() => super.toString();
 }
