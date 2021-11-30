@@ -5,7 +5,9 @@ import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/presentation/bloc/movie_search/movie_search_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
 import '../../helpers/test_helper.mocks.dart';
+
 void main() {
   late MockSearchMovies mockSearchMovies;
   late MovieSearchBloc movieSearchBloc;
@@ -61,10 +63,8 @@ void main() {
       return movieSearchBloc;
     },
     act: (bloc) => bloc.add(const MovieSearchQueryEvent(query)),
-    expect: () => [
-      MovieSearchLoading(),
-      const MovieSearchError('Server Failure')
-    ],
+    expect: () =>
+        [MovieSearchLoading(), const MovieSearchError('Server Failure')],
     verify: (bloc) {
       verify(mockSearchMovies.execute(query));
     },

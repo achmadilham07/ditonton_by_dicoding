@@ -1,8 +1,8 @@
+import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/data/models/episode_response.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/film_watchlist/film_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie_recommendation/movie_recommendation_bloc.dart';
@@ -15,16 +15,14 @@ import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart' as tail;
+import 'package:provider/provider.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import '../../helpers/test_helper.dart';
-import 'movie_detail_page_test.mocks.dart';
+import '../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([MovieDetailNotifier, TvDetailNotifier])
 void main() {
   late MockMovieDetailNotifier mockMovieNotifier;
   late MockTvDetailNotifier mockTvNotifier;

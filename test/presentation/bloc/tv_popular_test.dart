@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../helpers/test_helper.mocks.dart';
+
 void main() {
   late MockGetPopularTv mockGetPopularTvs;
   late TvPopularBloc tvPopularBloc;
@@ -40,8 +41,7 @@ void main() {
   blocTest<TvPopularBloc, TvPopularState>(
     'Should emit [Loading, Loaded] when data is gotten successfully',
     build: () {
-      when(mockGetPopularTvs.execute())
-          .thenAnswer((_) async => Right(tTvList));
+      when(mockGetPopularTvs.execute()).thenAnswer((_) async => Right(tTvList));
       return tvPopularBloc;
     },
     act: (bloc) => bloc.add(TvPopularGetEvent()),
@@ -59,10 +59,7 @@ void main() {
       return tvPopularBloc;
     },
     act: (bloc) => bloc.add(TvPopularGetEvent()),
-    expect: () => [
-      TvPopularLoading(),
-      const TvPopularError('Server Failure')
-    ],
+    expect: () => [TvPopularLoading(), const TvPopularError('Server Failure')],
     verify: (bloc) {
       verify(mockGetPopularTvs.execute());
     },

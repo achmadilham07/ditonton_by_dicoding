@@ -1,12 +1,13 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 import '../../helpers/test_helper.mocks.dart';
+
 void main() {
   late MockGetTvDetail mockGetTvDetail;
   late TvDetailBloc tvDetailBloc;
@@ -30,8 +31,7 @@ void main() {
       return tvDetailBloc;
     },
     act: (bloc) => bloc.add(const GetTvDetailEvent(tTvId)),
-    expect: () =>
-        [TvDetailLoading(), TvDetailLoaded(testTvDetail)],
+    expect: () => [TvDetailLoading(), TvDetailLoaded(testTvDetail)],
     verify: (bloc) {
       verify(mockGetTvDetail.execute(tTvId));
     },
@@ -45,8 +45,7 @@ void main() {
       return tvDetailBloc;
     },
     act: (bloc) => bloc.add(const GetTvDetailEvent(tTvId)),
-    expect: () =>
-        [TvDetailLoading(), const TvDetailError('Server Failure')],
+    expect: () => [TvDetailLoading(), const TvDetailError('Server Failure')],
     verify: (bloc) {
       verify(mockGetTvDetail.execute(tTvId));
     },

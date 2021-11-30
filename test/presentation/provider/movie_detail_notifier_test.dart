@@ -97,7 +97,7 @@ void main() {
     test('should change recommendation movies when data is gotten successfully',
         () async {
       // arrange
-          _arrangeUsecase();
+      _arrangeUsecase();
       // act
       await provider.fetchMovieDetail(tId);
       // assert
@@ -120,7 +120,7 @@ void main() {
     test('should update recommendation state when data is gotten successfully',
         () async {
       // arrange
-          _arrangeUsecase();
+      _arrangeUsecase();
       // act
       await provider.fetchMovieDetail(tId);
       // assert

@@ -5,7 +5,9 @@ import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/presentation/bloc/movie_recommendation/movie_recommendation_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
 import '../../helpers/test_helper.mocks.dart';
+
 void main() {
   late MockGetMovieRecommendations mockGetMovieRecommendation;
   late MovieRecommendationBloc movieRecommendationBloc;
@@ -47,7 +49,8 @@ void main() {
       return movieRecommendationBloc;
     },
     act: (bloc) => bloc.add(const GetMovieRecommendationEvent(tMovieId)),
-    expect: () => [MovieRecommendationLoading(), MovieRecommendationLoaded(tMovieList)],
+    expect: () =>
+        [MovieRecommendationLoading(), MovieRecommendationLoaded(tMovieList)],
     verify: (bloc) {
       verify(mockGetMovieRecommendation.execute(tMovieId));
     },

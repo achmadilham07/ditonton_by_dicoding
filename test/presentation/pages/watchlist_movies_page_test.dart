@@ -1,21 +1,19 @@
+import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/watchlist.dart';
-import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/film_watchlist/film_watchlist_bloc.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart' as tail;
+import 'package:provider/provider.dart';
 
 import '../../helpers/test_helper.dart';
-import 'watchlist_movies_page_test.mocks.dart';
+import '../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([WatchlistMovieNotifier])
 void main() {
   late MockWatchlistMovieNotifier mockNotifier;
   late MockFilmWatchlistBloc mockFilmWatchlistBloc;
@@ -92,7 +90,9 @@ void main() {
 
     testWidgets('Page should display center text when nothing',
         (WidgetTester tester) async {
-      tail.when(() => mockFilmWatchlistBloc.state).thenReturn(FilmWatchlistEmpty());
+      tail
+          .when(() => mockFilmWatchlistBloc.state)
+          .thenReturn(FilmWatchlistEmpty());
 
       final textFinder = find.byKey(const Key('error_message'));
 

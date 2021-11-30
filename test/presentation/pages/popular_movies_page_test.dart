@@ -1,21 +1,19 @@
+import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/movie_popular/movie_popular_bloc.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart' as tail;
+import 'package:provider/provider.dart';
 
 import '../../helpers/test_helper.dart';
-import 'popular_movies_page_test.mocks.dart';
+import '../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([PopularMoviesNotifier])
 void main() {
   late MockPopularMoviesNotifier mockNotifier;
   late MockMoviePopularBloc mockMoviePopularBloc;
@@ -92,7 +90,9 @@ void main() {
 
     testWidgets('Page should display center text when nothing',
         (WidgetTester tester) async {
-      tail.when(() => mockMoviePopularBloc.state).thenReturn(MoviePopularEmpty());
+      tail
+          .when(() => mockMoviePopularBloc.state)
+          .thenReturn(MoviePopularEmpty());
 
       final textFinder = find.byKey(const Key('error_message'));
 

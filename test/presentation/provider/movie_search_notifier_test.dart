@@ -55,7 +55,7 @@ void main() {
     test('should change search result data when data is gotten successfully',
         () async {
       // arrange
-          when(mockSearchMovies.execute(tQuery))
+      when(mockSearchMovies.execute(tQuery))
           .thenAnswer((_) async => Right(tMovieList));
       // act
       await provider.fetchMovieSearch(tQuery);

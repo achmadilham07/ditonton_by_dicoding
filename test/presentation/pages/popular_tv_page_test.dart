@@ -1,21 +1,19 @@
+import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv.dart';
-import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/tv_popular/tv_popular_bloc.dart';
 import 'package:ditonton/presentation/pages/popular_tv_page.dart';
 import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart' as tail;
+import 'package:provider/provider.dart';
 
 import '../../helpers/test_helper.dart';
-import 'popular_tv_page_test.mocks.dart';
+import '../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([PopularTvsNotifier])
 void main() {
   late MockPopularTvsNotifier mockNotifier;
   late MockTvPopularBloc mockTvPopularBloc;

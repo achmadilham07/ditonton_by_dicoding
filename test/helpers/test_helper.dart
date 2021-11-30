@@ -1,9 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mocktail/mocktail.dart' as tail;
-
 import 'package:ditonton/data/datasources/db/database_helper.dart';
 import 'package:ditonton/data/datasources/film_local_data_source.dart';
 import 'package:ditonton/data/datasources/film_remote_data_source.dart';
@@ -37,6 +32,17 @@ import 'package:ditonton/presentation/bloc/tv_now_playing/tv_now_playing_bloc.da
 import 'package:ditonton/presentation/bloc/tv_popular/tv_popular_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_recommendation/tv_recommendation_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_top_rated/tv_top_rated_bloc.dart';
+import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
+import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
+import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
+import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:ditonton/presentation/provider/top_rated_tv_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
+import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mocktail/mocktail.dart' as tail;
 
 class MockFilmWatchlistBloc
     extends MockBloc<FilmWatchlistEvent, FilmWatchlistState>
@@ -157,8 +163,15 @@ class TvNowPlayingStateFake extends tail.Fake implements TvNowPlayingState {}
   GetNowPlayingTv,
   SearchTv,
   GetWatchlistMovies,
+  MovieDetailNotifier,
+  TvDetailNotifier,
+  PopularMoviesNotifier,
+  PopularTvsNotifier,
+  TopRatedMoviesNotifier,
+  TopRatedTvsNotifier,
+  WatchlistMovieNotifier,
 ], customMocks: [
   MockSpec<http.Client>(as: #MockHttpClient),
   MockSpec<IOClient>(as: #MockIOClient),
 ])
-void main() {}
+Future<void> main() async {}

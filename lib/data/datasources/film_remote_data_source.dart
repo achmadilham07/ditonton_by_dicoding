@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:http/io_client.dart';
 
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/data/models/episode_response.dart';
@@ -9,6 +8,7 @@ import 'package:ditonton/data/models/movie_response.dart';
 import 'package:ditonton/data/models/tv_detail_model.dart';
 import 'package:ditonton/data/models/tv_model.dart';
 import 'package:ditonton/data/models/tv_response.dart';
+import 'package:http/io_client.dart';
 
 abstract class FilmRemoteDataSource {
   /// Movie

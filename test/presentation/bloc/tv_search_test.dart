@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../helpers/test_helper.mocks.dart';
+
 void main() {
   late MockSearchTv mockSearchTvs;
   late TvSearchBloc tvSearchBloc;
@@ -62,10 +63,7 @@ void main() {
       return tvSearchBloc;
     },
     act: (bloc) => bloc.add(const TvSearchQueryEvent(query)),
-    expect: () => [
-      TvSearchLoading(),
-      const TvSearchError('Server Failure')
-    ],
+    expect: () => [TvSearchLoading(), const TvSearchError('Server Failure')],
     verify: (bloc) {
       verify(mockSearchTvs.execute(query));
     },
