@@ -11,6 +11,7 @@ class GetListEvent extends FilmWatchlistEvent {}
 
 class GetStatusMovieEvent extends FilmWatchlistEvent {
   final int id;
+
   const GetStatusMovieEvent(this.id);
 
   @override
@@ -19,6 +20,7 @@ class GetStatusMovieEvent extends FilmWatchlistEvent {
 
 class GetStatusTvEvent extends FilmWatchlistEvent {
   final int id;
+
   const GetStatusTvEvent(this.id);
 
   @override
@@ -27,6 +29,7 @@ class GetStatusTvEvent extends FilmWatchlistEvent {
 
 class AddItemMovieEvent extends FilmWatchlistEvent {
   final MovieDetail movieDetail;
+
   const AddItemMovieEvent(this.movieDetail);
 
   @override
@@ -35,6 +38,7 @@ class AddItemMovieEvent extends FilmWatchlistEvent {
 
 class AddItemTvEvent extends FilmWatchlistEvent {
   final TvDetail tvDetail;
+
   const AddItemTvEvent(this.tvDetail);
 
   @override
@@ -43,6 +47,7 @@ class AddItemTvEvent extends FilmWatchlistEvent {
 
 class RemoveItemMovieEvent extends FilmWatchlistEvent {
   final MovieDetail movieDetail;
+
   const RemoveItemMovieEvent(this.movieDetail);
 
   @override
@@ -51,6 +56,7 @@ class RemoveItemMovieEvent extends FilmWatchlistEvent {
 
 class RemoveItemTvEvent extends FilmWatchlistEvent {
   final TvDetail tvDetail;
+
   const RemoveItemTvEvent(this.tvDetail);
 
   @override

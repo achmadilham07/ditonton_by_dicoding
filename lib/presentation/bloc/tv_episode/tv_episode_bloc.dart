@@ -15,7 +15,7 @@ class TvEpisodeBloc extends Bloc<TvEpisodeEvent, TvEpisodeState> {
     on<TvEpisodeGetEvent>((event, emit) async {
       final idTv = event.idTv;
       final idEpisode = event.idEpisode;
-      
+
       emit(TvEpisodeLoading());
       final result = await getTvEpisode.execute(idTv, idEpisode);
 

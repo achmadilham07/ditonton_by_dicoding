@@ -28,4 +28,3 @@ class TvNowPlayingLoaded extends TvNowPlayingState {
   @override
   List<Object> get props => [result];
 }
-

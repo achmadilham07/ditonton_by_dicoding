@@ -2,7 +2,7 @@ part of 'tv_recommendation_bloc.dart';
 
 abstract class TvRecommendationState extends Equatable {
   const TvRecommendationState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -10,6 +10,7 @@ abstract class TvRecommendationState extends Equatable {
 class TvRecommendationEmpty extends TvRecommendationState {}
 
 class TvRecommendationLoading extends TvRecommendationState {}
+
 class TvRecommendationError extends TvRecommendationState {
   final String message;
 
@@ -18,6 +19,7 @@ class TvRecommendationError extends TvRecommendationState {
   @override
   List<Object> get props => [message];
 }
+
 class TvRecommendationLoaded extends TvRecommendationState {
   final List<Tv> movie;
 

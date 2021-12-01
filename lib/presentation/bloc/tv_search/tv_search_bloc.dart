@@ -8,9 +8,12 @@ part 'tv_search_state.dart';
 
 class TvSearchBloc extends Bloc<TvSearchEvent, TvSearchState> {
   final SearchTv searchTvs;
+
   TvSearchBloc({
     required this.searchTvs,
   }) : super(TvSearchEmpty()) {
+    on<TvSearchSetEmpty>((event, emit) => emit(TvSearchEmpty()));
+
     on<TvSearchQueryEvent>((event, emit) async {
       final query = event.query;
 

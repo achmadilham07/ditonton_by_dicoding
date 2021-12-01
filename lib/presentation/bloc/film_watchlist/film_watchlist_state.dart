@@ -38,7 +38,6 @@ class FilmWatchlistLoaded extends FilmWatchlistState {
   List<Object> get props => [result];
 }
 
-
 class FilmWatchlistStatusLoaded extends FilmWatchlistState {
   final bool result;
 

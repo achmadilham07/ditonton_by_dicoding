@@ -12,7 +12,6 @@ part 'film_watchlist_event.dart';
 part 'film_watchlist_state.dart';
 
 class FilmWatchlistBloc extends Bloc<FilmWatchlistEvent, FilmWatchlistState> {
-  
   static const watchlistAddSuccessMessage = 'Added to Watchlist';
   static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
 

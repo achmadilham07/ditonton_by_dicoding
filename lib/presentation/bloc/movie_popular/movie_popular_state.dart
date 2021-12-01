@@ -28,4 +28,3 @@ class MoviePopularLoaded extends MoviePopularState {
   @override
   List<Object> get props => [result];
 }
-

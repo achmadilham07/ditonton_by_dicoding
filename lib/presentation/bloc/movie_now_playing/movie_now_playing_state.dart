@@ -28,4 +28,3 @@ class MovieNowPlayingLoaded extends MovieNowPlayingState {
   @override
   List<Object> get props => [result];
 }
-

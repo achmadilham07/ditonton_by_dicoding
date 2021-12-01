@@ -53,6 +53,7 @@ final locator = GetIt.instance;
 
 Future init() async {
   IOClient ioClient = await SSLPinning.ioClient;
+
   /// provider
   locator.registerFactory(
     () => MovieListNotifier(

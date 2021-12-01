@@ -28,4 +28,3 @@ class TvEpisodeLoaded extends TvEpisodeState {
   @override
   List<Object> get props => [result];
 }
-

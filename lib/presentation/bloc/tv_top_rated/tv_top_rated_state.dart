@@ -28,4 +28,3 @@ class TvTopRatedLoaded extends TvTopRatedState {
   @override
   List<Object> get props => [result];
 }
-

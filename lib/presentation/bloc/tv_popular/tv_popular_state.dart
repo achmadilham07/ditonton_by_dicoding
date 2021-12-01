@@ -28,4 +28,3 @@ class TvPopularLoaded extends TvPopularState {
   @override
   List<Object> get props => [result];
 }
-

@@ -42,7 +42,8 @@ class FilmCard extends StatelessWidget {
                   right: 8,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
                       title.isNotEmpty ? title : "-",

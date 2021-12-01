@@ -1,9 +1,9 @@
 // ignore_for_file: override_on_non_overriding_member
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/usecases/get_now_playing_movies.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'movie_now_playing_event.dart';
 part 'movie_now_playing_state.dart';

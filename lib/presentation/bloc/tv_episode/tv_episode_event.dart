@@ -10,6 +10,7 @@ abstract class TvEpisodeEvent extends Equatable {
 class TvEpisodeGetEvent extends TvEpisodeEvent {
   final int idTv;
   final int idEpisode;
+
   const TvEpisodeGetEvent(this.idTv, this.idEpisode);
 
   @override

@@ -28,4 +28,3 @@ class MovieTopRatedLoaded extends MovieTopRatedState {
   @override
   List<Object> get props => [result];
 }
-
