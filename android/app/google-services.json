@@ -29,6 +29,13 @@
             {
               "client_id": "804554152910-o0cvr7l6advmuh4pndts25l0ou8c275b.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "804554152910-a1ashfspfah8187ev2lm26ujppmbe5ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.belajarubic.ditonton"
+              }
             }
           ]
         }
